@@ -18,4 +18,67 @@
 ******************************************************************************/
 
 
-void Redis_Api_ForTest(const char *pcHostAddr, unsigned int uiPort);
+#define REDIS_COMM_LEN              16
+#define REDIS_TERMAL_STRLEN         64
+
+/***************************************************************************/
+/************************        终端信息          *****************************/
+/***************************************************************************/
+/* 终端信息 */
+typedef struct tagRedisTerminalInfo
+{
+    unsigned char acTerminalID[REDIS_TERMAL_STRLEN];            /*终端ID*/
+    unsigned char acTerminalDesptor[REDIS_TERMAL_STRLEN];       /*终端描述*/
+    unsigned char acTerminalStatus[REDIS_COMM_LEN];             /*终端状态*/
+    unsigned char acTerminalPubAddr[REDIS_TERMAL_STRLEN];       /*公网地址*/
+    unsigned char acTerminalNATType[REDIS_COMM_LEN];            /*NAT类型*/
+    unsigned char acProxyServerInfoID[REDIS_COMM_LEN];          /*代理服务器信息ID*/
+}REDIS_TERMAL_INFO_S, *PREDIS_TERMAL_INFO_S;
+
+
+
+
+
+
+/***************************************************************************/
+/************************        代理服务          *****************************/
+/***************************************************************************/
+/* 代理服务器信息 */
+typedef struct tagRedisTerminalInfo
+{
+    unsigned char acProxyServerInfoID[REDIS_COMM_LEN];          /*代理服务器信息ID*/
+    unsigned char acProxyServerConnNums[REDIS_COMM_LEN];        /*终端相关连接数信息*/
+    unsigned char acProxyServerAddr[REDIS_COMM_LEN];            /*代理服务器内网地址*/
+    unsigned char acProxyServerCtrlPort[REDIS_COMM_LEN];        /*代理服务器内网控制端口*/
+}REDIS_TERMAL_INFO_S, *PREDIS_TERMAL_INFO_S;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
