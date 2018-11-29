@@ -18,7 +18,11 @@
 ******************************************************************************/
 
 
-
+#include <hiredis/hiredis.h>
+#include <RedisLibApi.h>
+#include <RedisMyLock.h>
+#include <RedisProxyInfo.h>
+#include <RedisTerminalInfo.h>
 
 
 
