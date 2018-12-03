@@ -37,12 +37,47 @@
     修改内容   : 新生成函数
 
 *****************************************************************************/
-REDIS_CONN_S *REDIS_API_ConnCreate(unsigned char *pcSevAddr, unsigned char *pcSevPort, void *pvUserCtx)
+REDIS_CONN_S *REDIS_API_ConnCreate(char *pcSevAddr, int iSevPort, void *pvUserCtx)
 {
+    REDIS_CONN_S*       pstConn = NULL;
+    REDIS_CONN_INFO_S*  pstRedisConn = NULL;
     
+    if ( NULL == pcSevAddr
+        || NULL == pvUserCtx )
+    {
+        return NULL;
+    }
 
+    pstConn = (REDIS_CONN_S *)malloc(sizeof(REDIS_CONN_S));
+    if ( NULL == pstConn )
+    {
+        return NULL;
+    }
+    memset(pstConn, 0, sizeof(REDIS_CONN_S));
 
-    return NULL;
+    pstRedisConn = (REDIS_CONN_INFO_S *)malloc(sizeof(REDIS_CONN_INFO_S));    
+    if ( NULL == pstRedisConn )
+    {
+        free(pstConn);
+        return NULL;
+    }
+    memset(pstRedisConn, 0, sizeof(REDIS_CONN_S));
+
+    pstRedisConn->pstRedisConnCtx = redisConnect((const char *)pcSevAddr, iSevPort);
+    if ( pstRedisConn->pstRedisConnCtx != NULL 
+         && pstRedisConn->pstRedisConnCtx->err ) 
+    { 
+        free(pstRedisConn);
+        free(pstConn);
+        return NULL;
+    }
+
+    strcpy(pstConn->acServerAddr, pcSevAddr);
+    pstConn->iSevPort = iSevPort;
+    pstConn->pstRedisConn = (void *)pstRedisConn;
+
+    
+    return pstConn;
 }
 
 
@@ -63,8 +98,8 @@ REDIS_CONN_S *REDIS_API_ConnCreate(unsigned char *pcSevAddr, unsigned char *pcSe
 *****************************************************************************/
 void REDIS_API_ConnRelease(REDIS_CONN_S **ppstConn)
 {
-    REDIS_CONN_S*   pstConn = NULL;
-    redisContext*   pstRedisConn = NULL;
+    REDIS_CONN_S*       pstConn = NULL;
+    REDIS_CONN_INFO_S*  pstRedisConn = NULL;
     
     if ( NULL == ppstConn )
     {
@@ -73,11 +108,14 @@ void REDIS_API_ConnRelease(REDIS_CONN_S **ppstConn)
 
     pstConn = *ppstConn;
 
-    pstRedisConn= (redisContext *)pstConn->pstRedisCtx;
+    pstRedisConn= (REDIS_CONN_INFO_S *)pstConn->pstRedisConn;
 
-    if ( NULL != pstRedisConn )
+    if ( NULL != pstRedisConn)
     {
-       redisFree(pstRedisConn);
+       if ( NULL != pstRedisConn->pstRedisConnCtx  )
+       {
+            redisFree(pstRedisConn->pstRedisConnCtx);
+       }
     }
     
     *ppstConn = NULL;

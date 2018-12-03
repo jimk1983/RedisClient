@@ -49,13 +49,13 @@ extern "C" {
 /* Redis的连接 */
 typedef struct tagRedisConnection
 {
-    unsigned char acServerAddr[REDIS_COMM_LEN];     /*Redis服务器地址*/
-    unsigned char acServerPort[REDIS_COMM_LEN];     /*Redis服务器端口*/
-    void*         pstRedisCtx;                      /*Redis上下文*/
+    char          acServerAddr[REDIS_COMM_LEN];     /*Redis服务器地址*/
+    int           iSevPort;     /*Redis服务器端口*/
+    void*         pstRedisConn;                      /*Redis上下文*/
     void*         pstUserCtx;                       /*用户上下文*/            
 }REDIS_CONN_S, *PREDIS_CONN_S;
 
-REDIS_CONN_S *REDIS_API_ConnCreate(unsigned char *pcSevAddr, unsigned char *pcSevPort, void *pvUserCtx);
+REDIS_CONN_S *REDIS_API_ConnCreate(char *pcSevAddr, int iSevPort, void *pvUserCtx);
 
 void REDIS_API_ConnRelease(REDIS_CONN_S **ppstConn);
 
