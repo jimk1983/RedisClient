@@ -41,9 +41,9 @@ REDIS_CONN_S *REDIS_API_ConnCreate(char *pcSevAddr, int iSevPort, void *pvUserCt
 {
     REDIS_CONN_S*       pstConn = NULL;
     REDIS_CONN_INFO_S*  pstRedisConn = NULL;
+    redisContext*       pstRedisConnCtx = NULL;
     
-    if ( NULL == pcSevAddr
-        || NULL == pvUserCtx )
+    if ( NULL == pcSevAddr )
     {
         return NULL;
     }
@@ -61,16 +61,17 @@ REDIS_CONN_S *REDIS_API_ConnCreate(char *pcSevAddr, int iSevPort, void *pvUserCt
         free(pstConn);
         return NULL;
     }
-    memset(pstRedisConn, 0, sizeof(REDIS_CONN_S));
+    memset(pstRedisConn, 0, sizeof(REDIS_CONN_INFO_S));
 
-    pstRedisConn->pstRedisConnCtx = redisConnect((const char *)pcSevAddr, iSevPort);
-    if ( pstRedisConn->pstRedisConnCtx != NULL 
-         && pstRedisConn->pstRedisConnCtx->err ) 
+    pstRedisConnCtx = redisConnect((const char *)pcSevAddr, iSevPort);
+    if ( pstRedisConnCtx != NULL 
+         && pstRedisConnCtx->err ) 
     { 
         free(pstRedisConn);
         free(pstConn);
         return NULL;
     }
+    pstRedisConn->pstRedisConnCtx = pstRedisConnCtx;
 
     strcpy(pstConn->acServerAddr, pcSevAddr);
     pstConn->iSevPort = iSevPort;
@@ -115,9 +116,14 @@ void REDIS_API_ConnRelease(REDIS_CONN_S **ppstConn)
        if ( NULL != pstRedisConn->pstRedisConnCtx  )
        {
             redisFree(pstRedisConn->pstRedisConnCtx);
+            pstRedisConn->pstRedisConnCtx= NULL;
        }
+       
+       free(pstRedisConn);
+       pstConn->pstRedisConn = NULL;
     }
     
+    free(pstConn);
     *ppstConn = NULL;
 }
 
@@ -198,6 +204,7 @@ long REDIS_API_TerminalInfoGet(IN REDIS_CONN_S *pstConn,OUT REDIS_TERMAL_INFO_S 
 *****************************************************************************/
 long REDIS_API_TerminalInfoGetSet(IN REDIS_CONN_S *pstConn,INOUT REDIS_TERMAL_INFO_S *pstInfoGetSet)
 {
+    
     if ( NULL == pstInfoGetSet
         || NULL == pstConn )
     {
@@ -228,12 +235,31 @@ long REDIS_API_TerminalInfoGetSet(IN REDIS_CONN_S *pstConn,INOUT REDIS_TERMAL_IN
 *****************************************************************************/
 long REDIS_API_ProxyGatewayInfoSet(IN REDIS_CONN_S *pstConn,IN REDIS_PROXYGW_INFO_S *pstInfo)
 {
+    redisContext*       pstRedisConnCtx     = NULL;
+    REDIS_CONN_INFO_S*  pstRedisConnInfo    = NULL;
+
     if ( NULL == pstInfo
-        || NULL == pstConn )
+        || NULL == pstConn
+        || NULL == pstConn->pstRedisConn )
+    {
+        return VOS_ERR;
+    }
+
+    pstRedisConnInfo = (REDIS_CONN_INFO_S *)pstConn->pstRedisConn;
+    if ( NULL == pstRedisConnInfo->pstRedisConnCtx  )
     {
         return VOS_ERR;
     }
     
+    pstRedisConnCtx = pstRedisConnInfo->pstRedisConnCtx;
+    if ( VOS_ERR == REDIS_ProxyInfoAllSet(pstRedisConnCtx, 
+                                          pstInfo->acProxyServerInfoID, 
+                                          pstInfo->acProxyServerConnNums,
+                                          pstInfo->acProxyServerAddr,
+                                          pstInfo->acProxyServerCtrlPort)  )
+    {
+        return VOS_ERR;
+    }
 
     return VOS_OK;
 }
@@ -289,7 +315,9 @@ long REDIS_API_ProxyGatewayInfoGetSet(IN REDIS_CONN_S *pstConn, INOUT REDIS_PROX
     {
         return VOS_ERR;
     }
+
     
+        
 
     return VOS_OK;
 }

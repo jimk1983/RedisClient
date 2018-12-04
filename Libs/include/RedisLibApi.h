@@ -50,7 +50,7 @@ extern "C" {
 typedef struct tagRedisConnection
 {
     char          acServerAddr[REDIS_COMM_LEN];     /*Redis服务器地址*/
-    int           iSevPort;     /*Redis服务器端口*/
+    int           iSevPort;                         /*Redis服务器端口*/
     void*         pstRedisConn;                      /*Redis上下文*/
     void*         pstUserCtx;                       /*用户上下文*/            
 }REDIS_CONN_S, *PREDIS_CONN_S;
