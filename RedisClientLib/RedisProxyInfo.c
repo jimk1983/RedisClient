@@ -20,7 +20,7 @@
 #include <RedisComm.h>
 
 
-long REDIS_ProxyInfoAllSet(redisContext   *    pstRedisConnCtx,
+long REDIS_ProxyInfoSet(redisContext   *    pstRedisConnCtx,
                                  unsigned char *pcSevID,
                                  unsigned char *pcSevConnNums, 
                                  unsigned char *pcSevAddr, 
@@ -33,18 +33,53 @@ long REDIS_ProxyInfoAllSet(redisContext   *    pstRedisConnCtx,
         return VOS_ERR;
     }
 
-    reply = redisCommand(pstRedisConnCtx,"HSET %s proxyconn %s proxyaddr %s proxyport %s", pcSevID,pcSevConnNums, pcSevAddr,pcSevPort);
-    freeReplyObject(reply);
-
-    //reply = redisCommand(pstRedisConnCtx,"HGETALL %s", pcSevID);
-    reply = redisCommand(pstRedisConnCtx,"HGET %s proxyconn", pcSevID);
-    
-    printf("%s\n",reply->str);
+    reply = redisCommand(pstRedisConnCtx,"HSET %s pxyconn %s pxyaddr %s pxyport %s", 
+                                         pcSevID,pcSevConnNums, pcSevAddr,pcSevPort);
+    if ( NULL == reply )
+    {
+        printf("REDIS_ProxyInfoSet error=%s\n", pstRedisConnCtx->errstr);
+        return VOS_ERR;
+    }
     freeReplyObject(reply);
     
     return VOS_OK;
 }
 
+
+long REDIS_ProxyInfoGet(redisContext* pstRedisConnCtx,
+                        unsigned char *pcSevID,
+                        unsigned char *pcSevConnNums, 
+                        unsigned char *pcSevAddr, 
+                        unsigned char *pcSevPort )
+{
+    
+    redisReply*     reply = NULL;
+    
+    if ( NULL == pstRedisConnCtx )
+    {
+        return VOS_ERR;
+    }
+    
+    reply = redisCommand(pstRedisConnCtx,"HMGET %s pxyconn pxyaddr pxyport", pcSevID);
+    if ( NULL == reply )
+    {
+        printf("REDIS_ProxyInfoSet error=%s\n", pstRedisConnCtx->errstr);
+        return VOS_ERR;
+    }
+    
+
+    strcpy((char *)pcSevConnNums,reply->element[0]->str); 
+    strcpy((char *)pcSevAddr,reply->element[1]->str); 
+    strcpy((char *)pcSevPort,reply->element[2]->str); 
+        
+    printf("REDIS_ProxyInfoGet: pxyconn=%s,pxaddr=%s, pxyport=%s, keyid=[%s]\n",
+        pcSevConnNums,pcSevAddr,pcSevPort, pcSevID);
+    freeReplyObject(reply);
+    
+    
+
+    return VOS_OK;
+}
 
 
 

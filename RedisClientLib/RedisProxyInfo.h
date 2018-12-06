@@ -22,12 +22,17 @@
 
 
 
-long REDIS_ProxyInfoAllSet(redisContext   *    pstRedisConnCtx,
+long REDIS_ProxyInfoSet(redisContext   *    pstRedisConnCtx,
                                  unsigned char *pcSevID,
                                  unsigned char *pcSevConnNums, 
                                  unsigned char *pcSevAddr, 
                                  unsigned char *pcSevPort );
 
 
+long REDIS_ProxyInfoGet(redisContext* pstRedisConnCtx,
+                                 unsigned char *pcSevID,
+                                 unsigned char *pcSevConnNums, 
+                                 unsigned char *pcSevAddr, 
+                                 unsigned char *pcSevPort );
 
 

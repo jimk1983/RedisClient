@@ -53,7 +53,9 @@ int main()
 	    return -1;
     }
 
-    memset(&stGwInfo, 0, sizeof(stGwInfo));
+    memset(stGwInfo.acProxyServerAddr, 0, REDIS_COMM_LEN);
+    memset(stGwInfo.acProxyServerConnNums, 0, REDIS_COMM_LEN);
+    memset(stGwInfo.acProxyServerCtrlPort, 0, REDIS_COMM_LEN);
     if ( VOS_ERR == REDIS_API_ProxyGatewayInfoGet(pstRedisConn, &stGwInfo)  )
     {
         printf("******Redis Get gateway info error!*******\n");

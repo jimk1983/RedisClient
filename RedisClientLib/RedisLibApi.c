@@ -252,7 +252,7 @@ long REDIS_API_ProxyGatewayInfoSet(IN REDIS_CONN_S *pstConn,IN REDIS_PROXYGW_INF
     }
     
     pstRedisConnCtx = pstRedisConnInfo->pstRedisConnCtx;
-    if ( VOS_ERR == REDIS_ProxyInfoAllSet(pstRedisConnCtx, 
+    if ( VOS_ERR == REDIS_ProxyInfoSet(pstRedisConnCtx, 
                                           pstInfo->acProxyServerInfoID, 
                                           pstInfo->acProxyServerConnNums,
                                           pstInfo->acProxyServerAddr,
@@ -282,13 +282,32 @@ long REDIS_API_ProxyGatewayInfoSet(IN REDIS_CONN_S *pstConn,IN REDIS_PROXYGW_INF
 *****************************************************************************/
 long REDIS_API_ProxyGatewayInfoGet(IN REDIS_CONN_S *pstConn,OUT REDIS_PROXYGW_INFO_S *pstInfo)
 {
+    redisContext*       pstRedisConnCtx     = NULL;
+    REDIS_CONN_INFO_S*  pstRedisConnInfo    = NULL;
+
     if ( NULL == pstInfo
-        || NULL == pstConn )
+        || NULL == pstConn
+        || NULL == pstConn->pstRedisConn )
+    {
+        return VOS_ERR;
+    }
+
+    pstRedisConnInfo = (REDIS_CONN_INFO_S *)pstConn->pstRedisConn;
+    if ( NULL == pstRedisConnInfo->pstRedisConnCtx  )
     {
         return VOS_ERR;
     }
     
-
+    pstRedisConnCtx = pstRedisConnInfo->pstRedisConnCtx;
+    if ( VOS_ERR == REDIS_ProxyInfoGet(pstRedisConnCtx, 
+                                          pstInfo->acProxyServerInfoID, 
+                                          pstInfo->acProxyServerConnNums,
+                                          pstInfo->acProxyServerAddr,
+                                          pstInfo->acProxyServerCtrlPort)  )
+    {
+        return VOS_ERR;
+    }
+                                          
     return VOS_OK;
 }
 

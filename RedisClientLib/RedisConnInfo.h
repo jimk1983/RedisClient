@@ -22,8 +22,6 @@
 typedef struct tagRedisConnInfo
 {
     redisContext *pstRedisConnCtx;      /*Redis的连接上下文信息*/
-    
-
 }REDIS_CONN_INFO_S, *PREDIS_CONN_INFO_S;
 
 
