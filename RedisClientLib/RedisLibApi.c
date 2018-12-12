@@ -172,6 +172,49 @@ long REDIS_API_TerminalInfoSet(IN REDIS_CONN_S *pstConn, IN REDIS_TERMAL_INFO_S 
 
 
 /*****************************************************************************
+ 函 数 名  : REDIS_API_TerminalInfoSetStatus
+ 功能描述  : 在线状态更新
+ 输入参数  : IN REDIS_CONN_S *pstConn  
+             IN char *pcTerminalID     
+             IN int iOnlineFlag        
+ 输出参数  : 无
+ 返 回 值  : 
+ 调用函数  : 
+ 被调函数  : 
+ 
+ 修改历史      :
+  1.日    期   : 2018年12月12日
+    作    者   : 蒋康
+    修改内容   : 新生成函数
+
+*****************************************************************************/
+long REDIS_API_TerminalInfoSetStatus(IN REDIS_CONN_S *pstConn, IN unsigned char *pcTerminalID, IN unsigned int iOnlineFlag)
+{
+    redisContext*       pstRedisConnCtx     = NULL;
+    REDIS_CONN_INFO_S*  pstRedisConnInfo    = NULL;
+
+    if ( NULL == pstConn
+        || NULL == pstConn->pstRedisConn )
+    {
+        return VOS_ERR;
+    }
+
+    pstRedisConnInfo = (REDIS_CONN_INFO_S *)pstConn->pstRedisConn;
+    if ( NULL == pstRedisConnInfo->pstRedisConnCtx  )
+    {
+        return VOS_ERR;
+    }
+    
+    pstRedisConnCtx = pstRedisConnInfo->pstRedisConnCtx;
+    if (VOS_ERR == REDIS_Terminal_InfoUpdateStatus(pstRedisConnCtx, pcTerminalID, iOnlineFlag) )
+    {
+        return VOS_ERR;
+    }
+
+    return VOS_OK;
+}
+
+/*****************************************************************************
  函 数 名  : REDIS_API_TerminalInfoGet
  功能描述  : 终端信息获取
  输入参数  : REDIS_TERMAL_INFO_S *pstInfo  

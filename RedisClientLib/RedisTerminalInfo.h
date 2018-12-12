@@ -38,5 +38,7 @@ long REDIS_Terminal_InfoUpdate(redisContext   *    pstRedisConnCtx,
                               unsigned int uiClientAddr,
                               unsigned int uiClientPort);
 
+long REDIS_Terminal_InfoUpdateStatus(redisContext   *    pstRedisConnCtx, unsigned char *pcTerminalID, unsigned int uiTerminalOnline);
+
 
 

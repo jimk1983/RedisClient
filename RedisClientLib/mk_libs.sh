@@ -27,7 +27,9 @@ function pdt_lib_compile
        libsfmake $1
 	
 	cp 	$CURDIR/libredisclient.a $CURDIR/../Libs/bin/
-	cp  $CURDIR/RedisLibApi.h $CURDIR/../Libs/include/
+	cp  $CURDIR/RedisLibApi.h    $CURDIR/../Libs/include/
+	cp  $CURDIR/libredisclient.a $CURDIR/../../LinuxUpServer/libs/bins
+	cp  $CURDIR/RedisLibApi.h    $CURDIR/../../LinuxUpServer/libs/include
 	echo "copy library compeleted!"
 }
 

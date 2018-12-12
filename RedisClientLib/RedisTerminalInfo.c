@@ -112,6 +112,41 @@ long REDIS_Terminal_InfoUpdate(redisContext   *    pstRedisConnCtx,
     return VOS_OK;
 }
 
+
+long REDIS_Terminal_InfoUpdateStatus(redisContext   *    pstRedisConnCtx, unsigned char *pcTerminalID, unsigned int uiTerminalOnline)
+{
+    redisReply*     reply = NULL;
+
+    if ( NULL == pstRedisConnCtx )
+    {
+        return VOS_ERR;
+    }
+
+    if ( uiTerminalOnline )
+    {
+        reply = redisCommand(pstRedisConnCtx, REDIS_TERMINFO_CMD_UPST, pcTerminalID, REDIS_TMINFO_STAUS_ONLINE);
+    }
+    else
+    {
+        reply = redisCommand(pstRedisConnCtx, REDIS_TERMINFO_CMD_UPST, pcTerminalID, REDIS_TMINFO_STAUS_OFFLINE);
+    }
+    
+    if ( NULL == reply )
+    {
+        printf("REDIS_Terminal_InfoUpdate status error=%s\n", pstRedisConnCtx->errstr);
+        return VOS_ERR;
+    }
+    else
+    {
+        printf("REDIS_Terminal_InfoUpdate status successful!, pcTerminalID=%s\n", pcTerminalID );
+    }
+
+    freeReplyObject(reply);
+
+
+    return VOS_OK;
+}
+
                               
 
 

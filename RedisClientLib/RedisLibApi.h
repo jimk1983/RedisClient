@@ -75,6 +75,7 @@ typedef struct tagRedisTerminalInfo
     unsigned char acTerminalDesptor[REDIS_TERMAL_STRLEN];       /*终端描述*/
     unsigned char acTerminalStatus[REDIS_COMM_LEN];             /*终端状态*/
     unsigned char acTerminalPubAddr[REDIS_TERMAL_STRLEN];       /*公网地址*/
+    unsigned int  uiTerminalPubPort;                            /*公网端口*/
     unsigned char acTerminalNATType[REDIS_COMM_LEN];            /*NAT类型*/
     unsigned char acProxyServerInfoID[REDIS_COMM_LEN];          /*代理服务器信息ID*/
 }REDIS_TERMAL_INFO_S, *PREDIS_TERMAL_INFO_S;
@@ -85,6 +86,7 @@ long REDIS_API_TerminalInfoGet(IN REDIS_CONN_S *pstConn, OUT REDIS_TERMAL_INFO_S
 
 long REDIS_API_TerminalInfoGetSet(IN REDIS_CONN_S *pstConn, INOUT REDIS_TERMAL_INFO_S *pstInfoGetSet);
 
+long REDIS_API_TerminalInfoSetStatus(IN REDIS_CONN_S *pstConn, IN unsigned char *pcTerminalID, IN unsigned int iOnlineFlag);
 
 /***************************************************************************/
 /************************        代理服务          *****************************/
