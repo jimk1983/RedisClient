@@ -110,8 +110,8 @@ long REDIS_ProxyInfoGet(redisContext* pstRedisConnCtx,
     strcpy((char *)pcSevAddr,reply->element[1]->str); 
     strcpy((char *)pcSevPort,reply->element[2]->str); 
         
-    printf("REDIS_ProxyInfoGet: pxyconn=%s,pxaddr=%s, pxyport=%s, keyid=[%s]\n",
-        pcSevConnNums,pcSevAddr,pcSevPort, pcSevID);
+    //printf("REDIS_ProxyInfoGet: pxyconn=%s,pxaddr=%s, pxyport=%s, keyid=[%s]\n",
+    //    pcSevConnNums,pcSevAddr,pcSevPort, pcSevID);
     freeReplyObject(reply);
     
     

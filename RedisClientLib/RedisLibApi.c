@@ -162,7 +162,7 @@ long REDIS_API_TerminalInfoSet(IN REDIS_CONN_S *pstConn, IN REDIS_TERMAL_INFO_S 
     }
     
     pstRedisConnCtx = pstRedisConnInfo->pstRedisConnCtx;
-    if (VOS_ERR == REDIS_Terminal_InfoAdd(pstRedisConnCtx, pstInfo->acTerminalID, pstInfo->acTerminalDesptor) )
+    if (VOS_ERR == REDIS_Terminal_InfoAdd(pstRedisConnCtx, pstInfo->acTerminalID, pstInfo->acTerminalDesptor, pstInfo->acTerminalPubAddr, pstInfo->uiTerminalPubPort) )
     {
         return VOS_ERR;
     }

@@ -25,7 +25,9 @@
 /************************ RedisÖÕ¶ËÐÅÏ¢hash±í *************************/
 long REDIS_Terminal_InfoAdd(redisContext   *    pstRedisConnCtx,
                                  unsigned char *pcTerminalID,
-                                 unsigned char *pcTerminalDescptor)
+                                 unsigned char *pcTerminalDescptor,
+                                 unsigned char *pcTerminalAddr,
+                                 unsigned int  uiTerminalPort)
 {
     redisReply*     reply = NULL;
 
@@ -39,8 +41,8 @@ long REDIS_Terminal_InfoAdd(redisContext   *    pstRedisConnCtx,
                             pcTerminalDescptor, 
                             REDIS_TMINFO_DEFVALUE, 
                             REDIS_TMINFO_STAUS_ONLINE, 
-                            REDIS_TMINFO_DEFVALUE, 
-                            REDIS_TMINFO_DEFVALUE);
+                            pcTerminalAddr, 
+                            uiTerminalPort);
     if ( NULL == reply )
     {
         printf("REDIS_Terminal_InfoAdd error=%s\n", pstRedisConnCtx->errstr);
@@ -48,7 +50,7 @@ long REDIS_Terminal_InfoAdd(redisContext   *    pstRedisConnCtx,
     }
     else
     {
-        printf("REDIS_Terminal_InfoAdd successful!, pcTerminalID=%s\n", pcTerminalID );
+        //printf("REDIS_Terminal_InfoAdd successful!, pcTerminalID=%s\n", pcTerminalID );
     }
     
     freeReplyObject(reply);
@@ -86,7 +88,7 @@ long REDIS_Terminal_InfoUpdate(redisContext   *    pstRedisConnCtx,
                               unsigned char *pcTerminalID,
                               unsigned char *pcTerminalStat,
                               unsigned int uiAppVersion,
-                              unsigned int uiClientAddr,
+                              unsigned char *pcClientAddr,
                               unsigned int uiClientPort)
 {
     redisReply*     reply = NULL;
@@ -100,7 +102,7 @@ long REDIS_Terminal_InfoUpdate(redisContext   *    pstRedisConnCtx,
                          pcTerminalID,
                          uiAppVersion, 
                          pcTerminalStat, 
-                         uiClientAddr, 
+                         pcClientAddr, 
                          uiClientPort);
     if ( NULL == reply )
     {
@@ -138,7 +140,7 @@ long REDIS_Terminal_InfoUpdateStatus(redisContext   *    pstRedisConnCtx, unsign
     }
     else
     {
-        printf("REDIS_Terminal_InfoUpdate status successful!, pcTerminalID=%s\n", pcTerminalID );
+        //printf("REDIS_Terminal_InfoUpdate status successful!, pcTerminalID=%s\n", pcTerminalID );
     }
 
     freeReplyObject(reply);

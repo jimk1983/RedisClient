@@ -24,7 +24,9 @@
 
 long REDIS_Terminal_InfoAdd(redisContext   *    pstRedisConnCtx,
                                  unsigned char *pcTerminalID,
-                                 unsigned char *pcTerminalDescptor);
+                                 unsigned char *pcTerminalDescptor,
+                                 unsigned char *pcTerminalAddr,
+                                 unsigned int  uiTerminalPort);
 
 
 void REDIS_Terminal_InfoDel(redisContext* pstRedisConnCtx,
@@ -35,7 +37,7 @@ long REDIS_Terminal_InfoUpdate(redisContext   *    pstRedisConnCtx,
                               unsigned char *pcTerminalID,
                               unsigned char *pcTerminalStat,
                               unsigned int uiAppVersion,
-                              unsigned int uiClientAddr,
+                              unsigned char *pcClientAddr,
                               unsigned int uiClientPort);
 
 long REDIS_Terminal_InfoUpdateStatus(redisContext   *    pstRedisConnCtx, unsigned char *pcTerminalID, unsigned int uiTerminalOnline);

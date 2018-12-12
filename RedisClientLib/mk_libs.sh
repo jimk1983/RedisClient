@@ -28,7 +28,7 @@ function pdt_lib_compile
 	
 	cp 	$CURDIR/libredisclient.a $CURDIR/../Libs/bin/
 	cp  $CURDIR/RedisLibApi.h    $CURDIR/../Libs/include/
-	cp  $CURDIR/libredisclient.a $CURDIR/../../LinuxUpServer/libs/bins
+	cp  $CURDIR/libredisclient.a $CURDIR/../../LinuxUpServer/libs/bin
 	cp  $CURDIR/RedisLibApi.h    $CURDIR/../../LinuxUpServer/libs/include
 	echo "copy library compeleted!"
 }

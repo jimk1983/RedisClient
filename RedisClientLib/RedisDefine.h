@@ -50,9 +50,9 @@
 #define REDIS_TERMINFO_STR_PORT     "tmport"    /*终端端口*/
 
 /*设置终端信息HSET TerminalID       termalinfodes value tm */
-#define REDIS_TERMINFO_CMD_HSET     "HSET %s tmdes %s tmver %08x tmstat %s tmaddr %08x tmport %d"
+#define REDIS_TERMINFO_CMD_HSET     "HSET %s tmdes %s tmver %08x tmstat %s tmaddr %s tmport %d"
 /*更新*/
-#define REDIS_TERMINFO_CMD_UPDT     "HSET %s tmver %08x tmstat %s tmaddr %08x tmport %d"
+#define REDIS_TERMINFO_CMD_UPDT     "HSET %s tmver %08x tmstat %s tmaddr %s tmport %d"
 /*更新状态*/
 #define REDIS_TERMINFO_CMD_UPST     "HSET %s tmstat %s"     
 
