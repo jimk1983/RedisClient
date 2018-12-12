@@ -19,7 +19,25 @@
 
 #include <RedisComm.h>
 
+/*****************************************************************************
+ 函 数 名  : REDIS_ProxyInfoSet
+ 功能描述  : 代理信息设置
+ 输入参数  : redisContext   *    pstRedisConnCtx  
+             unsigned char *pcSevID               
+             unsigned char *pcSevConnNums         
+             unsigned char *pcSevAddr             
+             unsigned char *pcSevPort             
+ 输出参数  : 无
+ 返 回 值  : 
+ 调用函数  : 
+ 被调函数  : 
+ 
+ 修改历史      :
+  1.日    期   : 2018年12月11日
+    作    者   : 蒋康
+    修改内容   : 新生成函数
 
+*****************************************************************************/
 long REDIS_ProxyInfoSet(redisContext   *    pstRedisConnCtx,
                                  unsigned char *pcSevID,
                                  unsigned char *pcSevConnNums, 
@@ -46,6 +64,26 @@ long REDIS_ProxyInfoSet(redisContext   *    pstRedisConnCtx,
 }
 
 
+
+/*****************************************************************************
+ 函 数 名  : REDIS_ProxyInfoGet
+ 功能描述  : 代理信息获取
+ 输入参数  : redisContext* pstRedisConnCtx  
+             unsigned char *pcSevID         
+             unsigned char *pcSevConnNums   
+             unsigned char *pcSevAddr       
+             unsigned char *pcSevPort       
+ 输出参数  : 无
+ 返 回 值  : 
+ 调用函数  : 
+ 被调函数  : 
+ 
+ 修改历史      :
+  1.日    期   : 2018年12月11日
+    作    者   : 蒋康
+    修改内容   : 新生成函数
+
+*****************************************************************************/
 long REDIS_ProxyInfoGet(redisContext* pstRedisConnCtx,
                         unsigned char *pcSevID,
                         unsigned char *pcSevConnNums, 

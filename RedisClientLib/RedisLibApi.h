@@ -46,6 +46,12 @@ extern "C" {
 
 #define REDIS_TERMAL_STRLEN         64      /*终端的部分字符串长度*/
 
+#define REDIS_TMINFO_STAUS_ONLINE   "online"    /*在线*/
+#define REDIS_TMINFO_STAUS_OFFLINE  "offline"   /*离线*/
+
+#define REDIS_TMINFO_DEFVALUE       0x00000000
+
+
 /* Redis的连接 */
 typedef struct tagRedisConnection
 {

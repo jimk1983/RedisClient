@@ -145,12 +145,27 @@ void REDIS_API_ConnRelease(REDIS_CONN_S **ppstConn)
 *****************************************************************************/
 long REDIS_API_TerminalInfoSet(IN REDIS_CONN_S *pstConn, IN REDIS_TERMAL_INFO_S *pstInfo)
 {
+    redisContext*       pstRedisConnCtx     = NULL;
+    REDIS_CONN_INFO_S*  pstRedisConnInfo    = NULL;
+
     if ( NULL == pstInfo
-        || NULL == pstConn )
+        || NULL == pstConn
+        || NULL == pstConn->pstRedisConn )
+    {
+        return VOS_ERR;
+    }
+
+    pstRedisConnInfo = (REDIS_CONN_INFO_S *)pstConn->pstRedisConn;
+    if ( NULL == pstRedisConnInfo->pstRedisConnCtx  )
     {
         return VOS_ERR;
     }
     
+    pstRedisConnCtx = pstRedisConnInfo->pstRedisConnCtx;
+    if (VOS_ERR == REDIS_Terminal_InfoAdd(pstRedisConnCtx, pstInfo->acTerminalID, pstInfo->acTerminalDesptor) )
+    {
+        return VOS_ERR;
+    }
 
     return VOS_OK;
 }

@@ -22,6 +22,7 @@
 #include <string.h>
 #include <hiredis/hiredis.h>
 #include <RedisLibApi.h>
+#include <RedisDefine.h>
 #include <RedisConnInfo.h>
 #include <RedisMyLock.h>
 #include <RedisProxyInfo.h>
